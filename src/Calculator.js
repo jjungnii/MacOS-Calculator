@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import './Calculator.css';
 
+const DigitButton = ({ digit, onClick = () => {} }) => (
+  <button className={`button ${digit === 0 ? 'double-width' : ''}`} onClick={() => onClick(digit)}>
+    {digit}
+  </button>
+);
+
+const OperatorButton = ({ operator, onClick }) => (
+  <button className="button operator" onClick={() => onClick(operator)}>
+    {operator}
+  </button>
+);
+
+const SpecialButton = ({ label, onClick }) => (
+  <button className="button" onClick={onClick}>
+    {label}
+  </button>
+);
+
 const Calculator = () => {
   const [currValue, setCurrValue] = useState('0');
   const [operator, setOperator] = useState(null);
@@ -71,25 +89,29 @@ const Calculator = () => {
     <div className="calculator">
       <div className="display">{currValue}</div>
       <div className="buttons">
-        <button className="button" onClick={clear}>AC</button>
-        <button className="button" onClick={convertSign}>±</button>
-        <button className="button" onClick={inputPercent}>%</button>
-        <button className="button operator" onClick={() => performOperation('/')}>÷</button>
-        <button className="button" onClick={() => inputDigit(7)}>7</button>
-        <button className="button" onClick={() => inputDigit(8)}>8</button>
-        <button className="button" onClick={() => inputDigit(9)}>9</button>
-        <button className="button operator" onClick={() => performOperation('*')}>×</button>
-        <button className="button" onClick={() => inputDigit(4)}>4</button>
-        <button className="button" onClick={() => inputDigit(5)}>5</button>
-        <button className="button" onClick={() => inputDigit(6)}>6</button>
-        <button className="button operator" onClick={() => performOperation('-')}>−</button>
-        <button className="button" onClick={() => inputDigit(1)}>1</button>
-        <button className="button" onClick={() => inputDigit(2)}>2</button>
-        <button className="button" onClick={() => inputDigit(3)}>3</button>
-        <button className="button operator" onClick={() => performOperation('+')}>+</button>
-        <button className="button zero" onClick={() => inputDigit(0)}>0</button>
-        <button className="button" onClick={inputDot}>.</button>
-        <button className="button operator" onClick={() => performOperation('=')}>=</button>
+        <SpecialButton label="AC" onClick={clear} />
+        <SpecialButton label="±" onClick={convertSign} />
+        <SpecialButton label="%" onClick={inputPercent} />
+        <OperatorButton operator="÷" onClick={() => performOperation('/')} />
+        
+        {[7, 8, 9].map((digit) => (
+          <DigitButton key={digit} digit={digit} onClick={inputDigit} />
+        ))}
+        <OperatorButton operator="×" onClick={() => performOperation('*')} />
+        
+        {[4, 5, 6].map((digit) => (
+          <DigitButton key={digit} digit={digit} onClick={inputDigit} />
+        ))}
+        <OperatorButton operator="−" onClick={() => performOperation('-')} />
+        
+        {[1, 2, 3].map((digit) => (
+          <DigitButton key={digit} digit={digit} onClick={inputDigit} />
+        ))}
+        <OperatorButton operator="+" onClick={() => performOperation('+')} />
+        
+        <DigitButton digit={0} onClick={inputDigit} />
+        <SpecialButton label="." onClick={inputDot} />
+        <OperatorButton operator="=" onClick={() => performOperation('=')} />
       </div>
     </div>
   );
