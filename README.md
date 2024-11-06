@@ -1,5 +1,5 @@
-# MacOS 계산기 클론코딩
+# MacOS 계산기 클론코딩
 
-## Tech Stacks
+## Tech Stacks
 - Library: React
 - Language: JavaScript
